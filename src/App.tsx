@@ -4,6 +4,9 @@ import ProjectsPage from "./pages/ProjectsPage";
 import Navbar from "./components/NavBar";
 import ProjectDetailsPage from "./pages/ProjectDetailsPage";
 
+console.log(import.meta.env.VITE_BANCKEND_URL);
+
+
 function App() {
   return (
     <>
