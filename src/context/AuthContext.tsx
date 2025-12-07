@@ -1,13 +1,14 @@
 
 import { createContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
 
 export const AuthContext = createContext({
   isAuthenticated: false,
-  login: (token: string) => {},
+  login: (_token: string) => {},
   logout: () => {},
 });
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children }: {children: ReactNode}) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
