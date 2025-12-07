@@ -1,8 +1,13 @@
 import { useContext, useEffect } from "react";
+import type { ReactNode } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function ProtectedRoute({ children }) {
+interface ProtectedRouteProps {
+  children: ReactNode;
+}
+
+function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -13,10 +18,10 @@ function ProtectedRoute({ children }) {
   }, [isAuthenticated, navigate]);
 
   if (!isAuthenticated) {
-    return null; // prevents flashing before redirect
+    return null;
   }
 
-  return children;
+  return <>{children}</>;
 }
 
 export default ProtectedRoute;
