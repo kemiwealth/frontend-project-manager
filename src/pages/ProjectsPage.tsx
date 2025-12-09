@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { apiClient } from "../clients/api";
 import { Link } from "react-router-dom";
 import type { Project } from "../types";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -10,6 +12,9 @@ function ProjectsPage() {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -47,9 +52,22 @@ function ProjectsPage() {
       setDescription("")
     }
   };
+
+  const handleLogout = () => {
+    logout();            // clears token and updates auth state
+    navigate("/login");   // redirect to login page
+  };
+
   return (
+    
     <div className="text-white">
       <h1 className="text-4xl font-bold text-white">Projects</h1>
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded"
+        >
+          Logout
+        </button>
 
       <form
         onSubmit={handleSubmit}

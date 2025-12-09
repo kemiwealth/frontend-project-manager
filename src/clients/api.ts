@@ -11,12 +11,16 @@ import axios from "axios";
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
+  // baseURL: "http://localhost:4000", // my dev backend
+  withCredentials: true, // important if my backend uses cookies
 });
 
+// Add Bearer token if using JWT in headers
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`; // used since bearer is required and not hard coding token for production
   }
   return config;
 });
+
