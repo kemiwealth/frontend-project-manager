@@ -85,9 +85,10 @@
 // export default LoginPage;
 
 
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { apiClient } from "../clients/api";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -96,11 +97,13 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { login }= useContext(AuthContext); 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setLoading(true);
+      setError("")
 
       // Axios call with credentials
       // const res = await apiClient.post(
@@ -110,12 +113,11 @@ function LoginPage() {
       // );
 
       const res = await apiClient.post("/api/users/login", { email, password });
-localStorage.setItem("token", res.data.token);
 
+      login(res.data.token)
+// localStorage.setItem("token", res.data.token);
 
-
-
-      localStorage.setItem("token", res.data.token);
+//       localStorage.setItem("token", res.data.token);
       navigate("/projects");
     } catch (err: any) {
       setError(err.response?.data?.message || err.message);
