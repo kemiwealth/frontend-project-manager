@@ -89,6 +89,7 @@ import { useState,useContext } from "react";
 import { apiClient } from "../clients/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -168,9 +169,9 @@ function LoginPage() {
 
         <p className="text-gray-300 text-sm">
           Don’t have an account?{" "}
-          <a href="/register" className="text-sky-400 underline">
+          <Link to="/register" className="text-sky-400 underline">
             Register
-          </a>
+          </Link>
         </p>
       </form>
     </div>
