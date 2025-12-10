@@ -1,75 +1,201 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Project Management App
 
-## React Compiler
+A full-stack MERN (MongoDB, Express, React, Node.js) application that allows users to register, log in, and manage personal projects.
+Each user can create, view, update, and delete their own projects.
+The application uses JWT authentication, React Context for global state, and Axios for API communication.
+This project demonstrates authentication, protected routes, CRUD operations, API design, and production deployment.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+# Project Structure
+project/
+│
+├── backend/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middlewares/
+│   ├── server.js
+│   └── .env
+│
+└── frontend/
+    ├── src/
+    │   ├── pages/
+    │   ├── components/
+    │   ├── context/
+    │   ├── clients/api.ts
+    │   ├── App.tsx
+    │   └── main.tsx
+    ├── .env
+    └── vite.config.js
 
-Note: This will impact Vite dev & build performances.
+# Features
+### Authentication  
+- User registration
+- User login
+- JWT-based authentication
+- Protected routes (backend + frontend)
 
-## Expanding the ESLint configuration
+### Projects
+- Create a project
+- View all user-owned projects
+- View project details
+- Edit a project
+- Delete a project
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Frontend
+- React + TypeScript
+- React Router
+- Context API for auth
+- Axios API client with interceptor
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
+### Backend
+- Node.js + Express
+- Mongoose + MongoDB
+- JWT + middleware
+- RESTful API routes
+
+# Getting Started
+
+1. Clone the repository (frontend)
+git clone https://github.com/kemiwealth/frontend-project-manager
+
+2. Install frontend dependencies
+cd ../frontend
+npm i
+
+3. Add the Vite environment variable
+Create .env in the frontend folder:
+VITE_BACKEND_URL=http://localhost:4000
+
+4. Start the frontend
+npm run dev
+Frontend runs on:http://localhost:5173
+
+
+# API Documentation
+Base URL (development):http://localhost:4000/api
+
+## Users API
+
+- POST /api/users/register
+Create a new user.
+Body:
+JSON
+{
+  "username": "Johnny Deep",
+  "email": "john@example.com",
+  "password": "password123"
+}
+Responses
+201 Created – user created
+400 – user already exists
+
+- POST /api/users/login
+Authenticate a user and return a JWT token.
+Body:
+JSON
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+Response:
+{
+  "token": "jwt_token_here",
+  "user": {
+    "_id": "...",
+    "username": "...",
+    "email": "..."
+  }
+}
+
+- GET /api/users/
+Admin-only endpoint.
+Returns list of all users.
+Headers:
+Authorization: Bearer <token>
+
+- GET /api/users/:id
+Returns a single user by ID (unprotected).
+
+## Projects API
+All project routes require authentication.
+Headers
+Authorization: Bearer <token>
+
+- GET /api/projects/
+Get all projects belonging to the logged-in user.
+Response:
+[
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+    "_id": "...",
+    "title": "My Project",
+    "description": "Details",
+    "userId": "...",
+    "createdAt": "...",
+    "updatedAt": "..."
+  }
+]
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- POST /api/projects/
+Create a project.
+Body:
+{
+  "title": "New Project",
+  "description": "Project description"
+}
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- GET /api/projects/:id
+Get details of a single project.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- PUT /api/projects/:id
+Update a project.
+Body:
+{
+  "title": "Updated title",
+  "description": "Updated description"
+}
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- DELETE /api/projects/:id
+Delete a project permanently.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+# Technologies Used
+**Frontend**
+React
+TypeScript
+Vite
+React Router
+Axios
+Context API
+
+**Backend**
+Node.js
+Express
+MongoDB (Mongoose)
+JWT Authentication
+bcrypt
+
+# Run Both Servers Together
+
+(If you want)
+Open two terminals:
+
+Terminal 1:
+
+cd backend
+npm run dev
+
+
+Terminal 2:
+
+cd frontend
+npm run dev
+
+# Deployment Notes
+
+Frontend uses VITE_BACKEND_URL for production requests
+
+Make sure CORS is enabled for your production domain
+
+Render requires environment variables set in dashboard
