@@ -14,7 +14,7 @@ console.log(import.meta.env.VITE_BACKEND_URL);
 function App() {
   return (
     <>
-      <div className="p-5 bg-zinc-900 h-screen">
+      <div className="p-5 bg-zinc-900">
       <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />}/>
