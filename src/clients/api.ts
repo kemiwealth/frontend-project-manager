@@ -9,8 +9,21 @@
 
 import axios from "axios";
 
+export const getTasks = (projectId: string) =>
+  apiClient.get(`/tasks/${projectId}/tasks`);
+
+export const createTask = (projectId: string, data: any) =>
+  apiClient.post(`/tasks/${projectId}/tasks`, data);
+
+export const updateTask = (taskId: string, data: any) =>
+  apiClient.put(`/tasks/${taskId}`, data);
+
+export const deleteTask = (taskId: string) =>
+  apiClient.delete(`/tasks/${taskId}`);
+
+
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL,
+  baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:4000",
   // baseURL: "http://localhost:4000", // my dev backend
   withCredentials: true, // important if my backend uses cookies
 });
@@ -23,4 +36,5 @@ apiClient.interceptors.request.use((config) => {
   }
   return config;
 });
+
 
